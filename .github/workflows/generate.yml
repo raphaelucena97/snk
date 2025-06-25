@@ -1,14 +1,10 @@
-name: Generate Snake Animation
-
-on:
-  schedule:
-    - cron: "0 0 * * *" # roda todos os dias à meia-noite
-  workflow_dispatch: # permite executar manualmente
-
 jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
       - uses: Platane/snk@v3
         with:
           github_user_name: raphaelucena97
@@ -21,7 +17,7 @@ jobs:
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
           git add dist/
-          git commit -m "generate contribution snake"
+          git commit -m "generate contribution snake" || echo "No changes to commit"
           git push
 
       - uses: actions/upload-artifact@v4
